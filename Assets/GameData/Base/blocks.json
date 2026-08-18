@@ -1,0 +1,29 @@
+{
+  "blocks": [
+    {
+      "id": "grass",
+      "isWalkable": true,
+      "supportsRotation": false
+    },
+    {
+      "id": "stone",
+      "isWalkable": true,
+      "supportsRotation": false
+    },
+    {
+      "id": "dirt",
+      "isWalkable": true,
+      "supportsRotation": false
+    },
+    {
+      "id": "sand",
+      "isWalkable": true,
+      "supportsRotation": false
+    },
+    {
+      "id": "air",
+      "isWalkable": false,
+      "supportsRotation": false
+    }
+  ]
+}

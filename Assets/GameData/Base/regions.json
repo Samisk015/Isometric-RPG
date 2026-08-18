@@ -1,0 +1,36 @@
+{
+    "regions" : [
+        {
+            "id" : "base:forest",
+            "minTemp" : 15,
+            "maxTemp" : 30,
+            "minHumidity" : 0.5,
+            "maxHumidity" : 0.65,
+            "terrainShape" : "base:plains",
+            "features" : {
+                "base:trees" : {
+                    "types" : {
+                        "id" : "base:birch",
+                        "weight" : 50,
+                        "type" : "normal"
+                    },
+                    "chance" : 20
+                },
+                "base:mobs" : {
+                    "types" : {
+                        "id" : "base:deer",
+                        "weight" : 20
+                    }
+                }
+            }
+        },
+        {
+            "id" : "base:plains",
+            "minTemp" : 15,
+            "maxTemp" : 25,
+            "minHumidity" : 0.3,
+            "maxHumidity" : 0.4,
+            "terrainShape" : "base:plains"
+        }
+    ]
+}

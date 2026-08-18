@@ -1,0 +1,14 @@
+{
+  "blocks": [
+    {
+      "id": "grass1",
+      "isWalkable": true,
+      "supportsRotation": false
+    },
+    {
+      "id": "stone2",
+      "isWalkable": false,
+      "supportsRotation": false
+    }
+  ]
+}

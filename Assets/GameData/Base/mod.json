@@ -1,0 +1,8 @@
+{
+    "name": "Base Game",
+    "namespace": "base",
+    "gameVersion": "1.0.0",
+    "modVersion": "1.0.0",
+    "description": "The base game mod, containing the core game content.",
+    "author": "samisk015"
+}

@@ -1,0 +1,12 @@
+{
+    "terrainShapes" : [
+        {
+            "id" : "plains",
+            "heightOffset" : 7
+        },
+        {
+            "id" : "hills",
+            "heightOffset" : 3
+        }
+    ]
+}

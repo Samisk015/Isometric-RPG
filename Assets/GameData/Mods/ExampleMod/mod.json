@@ -1,0 +1,8 @@
+{
+    "name": "Example Mod",
+    "namespace": "example",
+    "gameVersion": "1.0.0",
+    "modVersion": "1.0.0",
+    "description": "An example mod for demonstration purposes.",
+    "author": "samisk015"
+}

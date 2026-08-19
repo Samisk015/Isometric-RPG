@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float blockWidth = 1f;
     [SerializeField] private float topFaceHeight = 0.5f;
-    [SerializeField] private float topFaceYOffset = 0.25f;
+    // [SerializeField] private float topFaceYOffset = 0.25f;
     public GameObject tileHighlight;
 
     private void MoveTo(Vector3 destination)

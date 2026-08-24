@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-public class terrainShape
+public class TerrainShape
 {
     
 }
@@ -11,3 +11,16 @@ public class TerrainShapeDefinition
 {
     
 }
+
+[System.Serializable]
+public class TerrainShapeDefinitionData
+{
+    
+}
+
+[System.Serializable]
+public class TerrainShapeFile
+{
+    
+}
+

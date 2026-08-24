@@ -1,18 +1,18 @@
 using UnityEngine;
 
-public class Entity
+public class Mob
 {
     public int health;
     public string displayName;
 
-    public Entity(EntityDefinition entityDefinition)
+    public Mob(MobDefinition mobDefinition)
     {
         
     }
 }
 
 [System.Serializable]
-public class EntityDefinition
+public class MobDefinition
 {
     public string Namespace { get; }
     public string LocalId { get; }
@@ -21,13 +21,13 @@ public class EntityDefinition
 }
 
 [System.Serializable]
-public class EntityDefinitionData
+public class MobDefinitionData
 {
     
 }
 
 [System.Serializable]
-public class EntityDefinitionFile
+public class MobDefinitionFile
 {
-    public EntityDefinitionData[] file;
+    public MobDefinitionData[] file;
 }

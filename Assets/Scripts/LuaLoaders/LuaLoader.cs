@@ -5,15 +5,6 @@ public static class LuaManager
 {
     public static Script Script { get; private set; }
 
-    // public static void Initialize()
-    // {
-    //     UserData.RegisterType<MobApi>();
-
-    //     Script = new Script(
-    //         CoreModules.Preset_SoftSandbox
-    //     );
-    // }
-
     public static Table CreateTable()
     {
         return new Table(Script);

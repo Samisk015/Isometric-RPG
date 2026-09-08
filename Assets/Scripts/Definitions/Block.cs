@@ -77,6 +77,11 @@ public class ResourcePackMetadata
     public string description;
 }
 
+public interface IBlockInterface
+{
+    
+}
+
 public enum Direction
 {
     Up, Down, North, South, East, West

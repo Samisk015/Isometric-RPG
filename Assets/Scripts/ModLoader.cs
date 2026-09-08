@@ -1,5 +1,8 @@
 using UnityEngine;
 using System.IO;
+using MoonSharp;
+using MoonSharp.Interpreter;
+using MoonSharp.Interpreter.Loaders;
 
 public static class ModLoader
 {
@@ -9,6 +12,16 @@ public static class ModLoader
         string GameDataPath = Path.Combine(Application.dataPath, "GameData");
         string baseGamePath = Path.Combine(GameDataPath, "Base");
         LoadContentPack(baseGamePath);
+    }
+
+    public static void LoadLuaScript()
+    {
+        Script script = new Script();
+    }
+
+    public static void LoadALlLua()
+    {
+        
     }
     public static void LoadAllMods()
     {

@@ -1,0 +1,78 @@
+using System.IO;
+using UnityEngine;
+using MoonSharp.Interpreter;
+
+public static class ModScriptManager
+{
+    // Optional: Store loaded script instances or functions if you need to access them later
+    // Key: "namespace:scriptName" (e.g., "my_mod:Custom_mobname_behaviour")
+    public static Dictionary<string, DynValue> LoadedMobBehaviors = new Dictionary<string, DynValue>();
+
+    public static void LoadLuaScriptsFromDirectory(string luaDirectory, string modNamespace)
+    {
+        // Find all .lua files, regardless of name (SearchOption.AllDirectories searches subfolders too)
+        string[] luaFiles = Directory.GetFiles(luaDirectory, "*.lua", SearchOption.AllDirectories);
+
+        foreach (string filePath in luaFiles)
+        {
+            try
+            {
+                // Create a script instance (use HardSandbox for mod safety if needed)
+                Script script = new Script(CoreModules.Preset_SoftSandbox);
+
+                // Register standard environment globals (game, workspace, etc.)
+                // script.Globals["game"] = RobloxEngine.GameInstance;
+
+                // Execute the script
+                DynValue result = script.DoFile(filePath);
+
+                // Extract filename without extension (e.g., "Custom_mobname_behaviour")
+                string scriptName = Path.GetFileNameWithoutExtension(filePath);
+                string fullId = $"{modNamespace}:{scriptName}";
+
+                // If the script returns a table or function (Module pattern), store it
+                if (result != null && result.Type != DataType.Nil)
+                {
+                    LoadedMobBehaviors[fullId] = result;
+                    Debug.Log($"Loaded returned Lua module: {fullId}");
+                }
+                else
+                {
+                    // If it defined a global function like 'UpdateBehavior'
+                    DynValue globalFunc = script.Globals.Get("UpdateBehavior");
+                    if (globalFunc.Type == DataType.Function)
+                    {
+                        LoadedMobBehaviors[fullId] = globalFunc;
+                    }
+                    Debug.Log($"Loaded standard Lua script: {fullId}");
+                }
+            }
+            catch (ScriptRuntimeException ex)
+            {
+                Debug.LogError($"MoonSharp Error in script '{filePath}': {ex.DecoratedMessage}");
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"Failed to load script at '{filePath}': {ex.Message}");
+            }
+        }
+    }
+
+    public static void ExecuteMobBehavior(string modNamespace, string scriptName)
+    {
+        string key = $"{modNamespace}:{scriptName}";
+
+        if (ModScriptManager.LoadedMobBehaviors.TryGetValue(key, out DynValue behavior))
+        {
+            // If the behavior stored is a function or table, execute/call it
+            if (behavior.Type == DataType.Function)
+            {
+                behavior.Function.Call();
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"No Lua behavior loaded for key: {key}");
+        }
+    }
+}

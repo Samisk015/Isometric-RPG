@@ -42,3 +42,17 @@
 //         Script.Options.ScriptLoader = loader;
 //     }
 // }
+
+using MoonSharp.Interpreter;
+using MoonSharp.Interpreter.Loaders;
+
+Script script = new Script();
+
+// Tell MoonSharp where to look for .lua modules
+((ScriptLoaderBase)script.Options.ScriptLoader).ModulePaths = new string[] {
+    "scripts/?",
+    "scripts/?.lua"
+};
+
+// Run your entry point file
+script.DoFile("scripts/main.lua");

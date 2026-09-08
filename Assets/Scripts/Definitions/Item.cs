@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum ItemPurpose
@@ -12,6 +13,23 @@ public enum ItemPurpose
     Placeable,
     Block,
     Misc,
+}
+
+public class CustomItemState
+{
+    private readonly Dictionary<string, object> values = new();
+
+    public void Set<T>(string key, T value)
+    {
+        values[key] = value;
+    }
+
+    public T Get<T>(string key, T defaultValue = default)
+    {
+        return values.TryGetValue(key, out object value)
+            ? (T)value
+            : defaultValue;
+    }
 }
 
 public class ItemDisplay
@@ -33,13 +51,18 @@ public class Item
     public ItemDefinition definition;
     public ItemDisplay display = new ItemDisplay(string.Empty, Array.Empty<string>(), Color.white);
 
+    public CustomItemState state;
+
     public Enchantment[] enchantments;
 
     public byte amount;
 
-    public Item(ItemDefinition definition, byte itemAmount)
+    public Item(ItemDefinition definition, CustomItemState itemState, byte itemAmount = 1, Enchantment[] itemEnchantments = null)
     {
         this.definition = definition;
+        this.amount = itemAmount;
+        this.enchantments = itemEnchantments;
+        this.state = itemState;
     }
 }
 
@@ -51,13 +74,20 @@ public class ItemDefinition
     public string LocalId { get; }
 
     public string FullId { get; }
-    public ItemPurpose[] itemPurposes;
+    public ItemPurpose[] purposes;
+
+    public string[] Tags;
 
     public short stackSize;
 
-    public ItemDefinition(string itemNamespace, string itemLocalId, string itemFullId, ItemPurpose[] itemPurposes)
+    public ItemDefinition(string itemNamespace, string itemLocalId, string itemFullId, ItemPurpose[] itemPurposes, short itemStackSize, string[] ItemTags)
     {
-        
+        Namespace = itemNamespace;
+        LocalId = itemLocalId;
+        FullId = itemFullId;
+        purposes = itemPurposes;
+        stackSize = itemStackSize;
+        Tags = ItemTags;
     }
 
 }
@@ -66,7 +96,9 @@ public class ItemDefinition
 [System.Serializable]
 public class ItemDefinitionData
 {
-    
+    public string id;
+    public ItemPurpose[] itemPurposes;
+    public short stackSize;
 }
 
 [System.Serializable]

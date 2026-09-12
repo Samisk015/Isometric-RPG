@@ -16,12 +16,13 @@ public static class ModLoader
 
     public static void LoadLuaScript()
     {
-        Script script = new Script();
+       
     }
 
-    public static void LoadALlLua()
+    public static void LoadALlLua(string modPath)
     {
-        
+        string luaFolderPath = Path.Combine(modPath, "Lua");
+        ModScriptManager.LoadLuaScriptsFromDirectory(modPath);
     }
     public static void LoadAllMods()
     {

@@ -8,9 +8,13 @@ public static class ModScriptManager
     // Key: "namespace:scriptName" (e.g., "my_mod:Custom_mobname_behaviour")
     public static Dictionary<string, DynValue> LoadedMobBehaviors = new Dictionary<string, DynValue>();
 
-    public static void LoadLuaScriptsFromDirectory(string luaDirectory, string modNamespace)
+    public static void LoadLuaScriptsFromDirectory(string modPath)
     {
         // Find all .lua files, regardless of name (SearchOption.AllDirectories searches subfolders too)
+        string luaDirectory = Path.Combine(modPath, "Lua");
+        string metadataPath = Path.Combine(modPath, "mod.json");
+        ModMetadata metadata = JsonUtility.FromJson<ModMetadata>(File.ReadAllText(metadataPath));
+        string @namespace = metadata.@namespace;
         string[] luaFiles = Directory.GetFiles(luaDirectory, "*.lua", SearchOption.AllDirectories);
 
         foreach (string filePath in luaFiles)

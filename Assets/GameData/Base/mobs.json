@@ -2,7 +2,7 @@
     "mobs" : [
         {
             "id" : "base:zombie",
-            "ai" : "base:zombie",
+            "behaviour" : "base:zombie",
             "maxHealth" : 100,
             "Tags" : [
                 "burned_by_sun", "#monsters"

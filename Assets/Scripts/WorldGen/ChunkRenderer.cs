@@ -66,4 +66,12 @@ public class ChunkRenderer : MonoBehaviour
         }Vector2Int chunkCoord = chunk.coordinate;
 
     }
+
+    public void RenderBlock(Vector3Int worldPosition, BlockDefinition definition)
+    {
+        if (worldPosition.z < 0 || worldPosition.z >= tilemaps.Length) return;
+        Vector3Int tilePosition = new Vector3Int(worldPosition.x, worldPosition.y, 0);
+        tilemaps[worldPosition.z].SetTile(tilePosition,
+            definition.FullId == "base:air" ? null : TileRegistry.Get(definition.LocalId));
+    }
 }

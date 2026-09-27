@@ -16,6 +16,12 @@ public class LivingEntity : MonoBehaviour
         Health = maxHealth;
     }
 
+    public void ConfigureMaxHealth(int value)
+    {
+        maxHealth = Mathf.Max(1, value);
+        Health = maxHealth;
+    }
+
     public void Damage(int amount)
     {
         if (!IsAlive || amount <= 0)

@@ -1,0 +1,3 @@
+local horse = {}
+
+return horse

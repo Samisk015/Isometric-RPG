@@ -57,25 +57,33 @@ public class MobDefinition
     public string[] Tags;
 
     public string AIType;
+    public string BehaviourId;
 
-    public MobDefinition(string mobNamespace, string mobLocalId, string mobFullId, int mobMaxHealth, string[] MobTags, string MobAIType)
+    public MobDefinition(string mobNamespace, string mobLocalId, string mobFullId, int mobMaxHealth, string[] mobTags, string mobAIType, string behaviourId)
     {
         Namespace = mobNamespace;
         LocalId = mobLocalId;
         FullId = mobFullId;
         maxHealth = mobMaxHealth;
-        Tags = MobTags;  
+        Tags = mobTags ?? System.Array.Empty<string>();
+        AIType = mobAIType;
+        BehaviourId = behaviourId;
     }
 }
 
 [System.Serializable]
 public class MobDefinitionData
 {
-    
+    public string id;
+    public string behaviour;
+    public int maxHealth;
+    public string[] Tags;
+    public string[] tags;
+    public string aiType;
 }
 
 [System.Serializable]
 public class MobDefinitionFile
 {
-    public MobDefinitionData[] file;
+    public MobDefinitionData[] mobs;
 }

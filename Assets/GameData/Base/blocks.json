@@ -3,7 +3,10 @@
     {
       "id": "grass",
       "isWalkable": true,
-      "supportsRotation": false
+      "supportsRotation": false,
+      "Tags" : [
+        "base:grows_flowers"
+      ]
     },
     {
       "id": "stone",
@@ -13,7 +16,11 @@
     {
       "id": "dirt",
       "isWalkable": true,
-      "supportsRotation": false
+      "supportsRotation": false,
+      "Tags" : [
+        "#dirt",
+        "base:grows_grass"
+      ]
     },
     {
       "id": "sand",

@@ -1,0 +1,11 @@
+{
+    "block_tags" : [
+        "grows_grass",
+        "turns_to_path",
+        "grows_flowers",
+        "grows_cacti",
+        "can_plant_flowers",
+        "can_plant_seeds"
+
+    ]
+}

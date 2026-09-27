@@ -20,28 +20,33 @@ public class Block
 }
 
 [System.Serializable]
-    public class ModMetadata
-    {
-        public string modName;
-        public string @namespace;
-        public string gameVersion;
-        public string version;
-        public string author;
-    }
+public class ModMetadata
+{
+    public string modName;
+    public string @namespace;
+    public string gameVersion;
+    public string version;
+    public string author;
+}
 
-    [System.Serializable]
-    public class BlockDefinitionFile
-    {
-        public BlockDefinitionData[] blocks;
-    }
+[System.Serializable]
+public class BlockDefinitionFile
+{
+    public BlockDefinitionData[] blocks;
+}
 
-    [System.Serializable]
-    public class BlockDefinitionData
-    {
-        public string id;
-        public bool isWalkable;
-        public bool supportsRotation;
-    }
+[System.Serializable]
+public class BlockDefinitionData
+{
+    public string id;
+    public bool isWalkable;
+    public bool supportsRotation;
+    // Keep both forms while the content format is being standardized.
+    public string behaviour;
+    public string[] behaviours;
+    public string[] Tags;
+    public string[] tags;
+}
 
 public class BlockDefinition
 {
@@ -52,18 +57,30 @@ public class BlockDefinition
 
     public bool IsWalkable { get; }
     public bool SupportsRotation { get; }
+    public string[] behaviours { get; }
+
+    public string[] tags { get; }
 
     public BlockDefinition(
         string blockNamespace,
         string localId,
         bool isWalkable,
-        bool supportsRotation)
+        bool supportsRotation,
+        string[] blockBehaviours,
+        string[] blockTags)
     {
         Namespace = blockNamespace;
         LocalId = localId;
         IsWalkable = isWalkable;
         SupportsRotation = supportsRotation;
+        behaviours = blockBehaviours ?? System.Array.Empty<string>();
+        tags = blockTags ?? System.Array.Empty<string>();
         FullId = $"{Namespace}:{LocalId}";
+    }
+
+    public bool HasTag(string tagId)
+    {
+        return System.Array.Exists(tags, tag => tag == tagId);
     }
 }
 
@@ -75,11 +92,6 @@ public class ResourcePackMetadata
     public string version;
     public string author;
     public string description;
-}
-
-public interface IBlockInterface
-{
-    
 }
 
 public enum Direction

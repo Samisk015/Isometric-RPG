@@ -23,13 +23,18 @@ public class RegionDefinition
     public float maxHumidity { get; }
     public string terrainShape { get; }
 
+    public Color waterShade { get; }
+    public Color ambienceShade { get; }
+
     public RegionDefinition(string regionNamespace,
     string regionLocalId,
     int regionMinTemp,
     int regionMaxTemp,
     float regionMinHumidity,
     float regionMaxHumidity,
-    string regionTerrainShape)
+    string regionTerrainShape,
+    Color regionWaterShade,
+    Color regionAmbienceShade)
     {
         Namespace = regionNamespace;
         LocalId = regionLocalId;
@@ -39,6 +44,8 @@ public class RegionDefinition
         minHumidity = regionMinHumidity;
         maxHumidity = regionMaxHumidity;
         terrainShape = regionTerrainShape;
+        waterShade = regionWaterShade;
+        ambienceShade = regionAmbienceShade;
     }
 }
 

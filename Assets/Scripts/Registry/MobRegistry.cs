@@ -13,4 +13,9 @@ public static class MobRegistry
     {
         return definitions.TryGetValue(id, out definition);
     }
+
+    public static MobDefinition Get(string id)
+    {
+        return definitions[id];
+    }
 }

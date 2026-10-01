@@ -99,6 +99,8 @@ public class ItemDefinitionData
     public string id;
     public ItemPurpose[] itemPurposes;
     public short stackSize;
+
+    public string[] itemTags;
 }
 
 [System.Serializable]

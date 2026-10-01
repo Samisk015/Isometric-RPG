@@ -16,6 +16,19 @@ public sealed class BlockStateStore
         return state;
     }
 
+    public void SetOrCreate(Vector3Int position, EntityState state)
+    {
+        if (!states.TryGetValue(position, out EntityState existingState))
+        {
+            existingState = new EntityState();
+            states[position] = existingState;
+        }
+        else
+        {
+            states[position] = state;
+        }
+    }
+
     public void Remove(Vector3Int position)
     {
         states.Remove(position);

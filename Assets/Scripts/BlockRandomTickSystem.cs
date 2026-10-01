@@ -38,6 +38,13 @@ public sealed class BlockRandomTickSystem : MonoBehaviour
         {
             World.Instance.SetBlock(position, "base:grass");
         }
+        else if (block.definition.HasTag("#plants") && World.Instance.IsAir(position + Vector3Int.forward))
+        {
+            EntityState newState = new EntityState();
+
+            // newState.SetNumber("growth_stage", )
+            // BlockStateStore.SetOrCreate(position, )
+        }
 
         foreach (string behaviourId in block.definition.behaviours)
         {

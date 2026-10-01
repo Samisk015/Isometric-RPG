@@ -6,12 +6,16 @@ public class Enchantment
 {
     public short level;
 
+    [System.NonSerialized]
+    public EnchantmentDefinition definition;
+
     // public bool applied;
     // wanted to add stored / applied like in minecraft enchanted books
 
     public Enchantment(EnchantmentDefinition definition, short level)
     {
-        
+        this.definition = definition;
+        this.level = level;
     }
 }
 
@@ -19,19 +23,19 @@ public class Enchantment
 
 public class EnchantmentDefinition
 {
-    public string Namespace;
-    public string LocalId;
+    public string Namespace { get; }
+    public string LocalId { get; }
 
-    public string FullId;
+    public string FullId { get; }
 
-    public byte maxLevel;
+    public short maxLevel { get; }
 
-    public bool positive;
-
-    public EnchantmentDefinition(string enchantNamespace, string enchantLocalId, string enchantFullId, byte enchantMaxLevel, bool enchantPositive)
+    public EnchantmentDefinition(string enchantNamespace, string enchantLocalId, short enchantMaxLevel)
     {
         Namespace = enchantNamespace;
-        
+        LocalId = enchantLocalId;
+        FullId = $"{Namespace}:{LocalId}";
+        maxLevel = enchantMaxLevel;
     }
 }
 

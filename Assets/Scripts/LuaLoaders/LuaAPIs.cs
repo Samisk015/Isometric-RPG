@@ -113,17 +113,22 @@ public sealed class LuaEntityStateApi
         return state.GetString(key, defaultValue);
     }
 
-    public void set_position(string key, LuaGridPosition value)
+    public void set_position(LuaGridPosition value)
     {
-        state.SetPosition(key, value.ToUnityPosition());
+        state.SetPosition(value.ToUnityPosition());
     }
 
-    public LuaGridPosition get_position(string key, LuaGridPosition defaultValue = null)
+    // public LuaGridPosition get_position(string key, LuaGridPosition defaultValue = null)
+    // {
+    //     return new LuaGridPosition(
+    //         state.GetPosition(
+    //             key,
+    //             defaultValue?.ToUnityPosition() ?? default));
+    // }
+
+    public LuaGridPosition get_position()
     {
-        return new LuaGridPosition(
-            state.GetPosition(
-                key,
-                defaultValue?.ToUnityPosition() ?? default));
+        return new LuaGridPosition(state.GetPosition());
     }
 }
 

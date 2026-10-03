@@ -201,6 +201,10 @@ public sealed class LuaPlayerApi
     }
 
     public bool is_valid() => player != null;
+
+    public Gamemode get_gamemode() => player.GetGamemode();
+
+    public void set_gamemode(Gamemode mode) => player.SetGamemode(mode);
 }
 
 [MoonSharpUserData]

@@ -5,7 +5,7 @@ function grass.on_random_tick(ctx)
 	currentGrowthStage = currentGrowthStage + 1
 	ctx.state:set_number("growth_stage", currentGrowthStage)
 
-	Events.UpdateBlock(ctx.state:get_position())
+	-- Events.UpdateBlock(ctx.state:get_position())
 
 	-- local above = ctx.pos:offset(0, 0, 1)
 

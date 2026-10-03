@@ -1,7 +1,25 @@
 using UnityEngine;
 
+public enum Gamemode
+{
+    Creative,
+    Survival
+}
+
 public class Player : MonoBehaviour
 {
+
+    private Gamemode gamemode;
+
+    public Gamemode GetGamemode()
+    {
+        return gamemode;
+    }
+
+    public void SetGamemode(Gamemode mode)
+    {
+        gamemode = mode;
+    }
     public Camera playerCamera;
     void Update()
     {

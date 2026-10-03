@@ -1,8 +1,22 @@
+using System;
 using UnityEngine;
 
 public class World : MonoBehaviour
 {
     public static World Instance { get; private set; }
+
+    private float timer;
+
+    private float intervalSeconds = 1.0f;
+
+    private int DAY_LENGTH = 6000;
+
+    private int MAX_ANGLE = 180;
+
+    
+    
+
+    private int NIGHT_LENGTH = 3000;
 
     public Block GetBlock(Vector3Int worldPosition)
     {
@@ -27,6 +41,10 @@ public class World : MonoBehaviour
 
         return null; // Return null if the block is not found
     }
+
+    public int day = 1;
+
+    public int daytime = 0;
 
     public bool TryGetBlock(Vector3Int worldPosition)
     {
@@ -92,6 +110,21 @@ public class World : MonoBehaviour
         else
         {
             Instance = this;
+        }
+    }
+
+    private void Update()
+    {
+        timer += Time.deltaTime;
+        if (timer >= intervalSeconds)
+        {
+            timer -= intervalSeconds;
+            daytime++;
+
+            if (daytime >= 6000)
+            {
+                daytime -= 6000;
+            }
         }
     }
 }

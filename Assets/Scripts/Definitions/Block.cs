@@ -57,6 +57,8 @@ public class BlockDefinition
 
     public bool IsWalkable { get; }
     public bool SupportsRotation { get; }
+
+    public short pathfindCost { get; }
     public string[] behaviours { get; }
 
     public string[] tags { get; }
@@ -67,12 +69,14 @@ public class BlockDefinition
         bool isWalkable,
         bool supportsRotation,
         string[] blockBehaviours,
-        string[] blockTags)
+        string[] blockTags,
+        short blockPathfindCost)
     {
         Namespace = blockNamespace;
         LocalId = localId;
         IsWalkable = isWalkable;
         SupportsRotation = supportsRotation;
+        pathfindCost = blockPathfindCost;
         behaviours = blockBehaviours ?? System.Array.Empty<string>();
         tags = blockTags ?? System.Array.Empty<string>();
         FullId = $"{Namespace}:{LocalId}";

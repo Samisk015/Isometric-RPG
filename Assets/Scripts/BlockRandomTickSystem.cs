@@ -48,7 +48,7 @@ public sealed class BlockRandomTickSystem : MonoBehaviour
 
         foreach (string behaviourId in block.definition.behaviours)
         {
-            if (!ModScriptManager.Behaviours.TryGetBlockBehaviour(behaviourId, out LuaBehaviourModule behaviour)) continue;
+            if (!LuaBehaviourRegistry.Instance.TryGetBlockBehaviour(behaviourId, out LuaBehaviourModule behaviour)) continue;
 
             LuaBlockContext context = new LuaBlockContext(
                 new LuaGridPosition(position),

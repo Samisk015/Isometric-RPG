@@ -249,6 +249,11 @@ public sealed class LuaWorldApi
         this.world = world;
     }
 
+    public float get_temp_mutli()
+    {
+        return world.GetTempMutli();
+    }
+
     public bool is_air(LuaGridPosition position)
     {
         return world != null && world.IsAir(position.ToUnityPosition());

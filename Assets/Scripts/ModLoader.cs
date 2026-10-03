@@ -1,8 +1,6 @@
 using UnityEngine;
 using System.IO;
-using MoonSharp;
-using MoonSharp.Interpreter;
-using MoonSharp.Interpreter.Loaders;
+
 public static class ModLoader
 {
     public static void LoadBaseGame()
@@ -12,11 +10,6 @@ public static class ModLoader
         LoadContentPack(baseGamePath);
     }
 
-    public static void LoadALlLua(string modPath)
-    {
-        ModScriptManager.LoadLuaScriptsFromDirectory(modPath);
-    }
-    
     public static void LoadAllMods()
     {
         string GameDataPath = Path.Combine(Application.dataPath, "GameData");
@@ -45,11 +38,11 @@ public static class ModLoader
             return;
         }
 
-        LoadALlLua(modFolder);
-
         ModMetadata metadata =
             JsonUtility.FromJson<ModMetadata>(
                 File.ReadAllText(metadataPath));
+
+        LuaBehaviourRegistry.Instance.LoadFromDirectory(modFolder, metadata.@namespace);
 
         if (File.Exists(blocksPath))
         {

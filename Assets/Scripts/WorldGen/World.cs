@@ -1,6 +1,14 @@
 using System;
 using UnityEngine;
 
+public enum Season
+{
+    Spring,
+    Summer,
+    Autumn,
+    Winter
+}
+
 public class World : MonoBehaviour
 {
     public static World Instance { get; private set; }
@@ -13,7 +21,26 @@ public class World : MonoBehaviour
 
     private int MAX_ANGLE = 180;
 
-    
+    private int YEAR_LENGTH = 120;
+
+    private float HOTTEST_DAY = 0.25f;
+
+    private float COLDEST_DAY = 0.75f;
+
+    private float HOTTEST_MULTI = 2.0f;
+
+    private float COLDEST_MULTI = 0.25f;
+
+    private const float SIGMOID_STEEPNESS = 8.0f;
+
+    private const float WEATHER_VARIATION = 0.04f;
+
+    private float Temperature_mutlti = 1.0f;
+
+    public float GetTempMutli()
+    {
+        return Temperature_mutlti;
+    }
     
 
     private int NIGHT_LENGTH = 3000;
@@ -110,6 +137,7 @@ public class World : MonoBehaviour
         else
         {
             Instance = this;
+            UpdateTemperature();
         }
     }
 
@@ -123,8 +151,56 @@ public class World : MonoBehaviour
 
             if (daytime >= 6000)
             {
+                day++;
+                if (day >= YEAR_LENGTH)
+                {
+                    day -= YEAR_LENGTH;
+                }
+
+                UpdateTemperature();
                 daytime -= 6000;
             }
         }
+    }
+
+    private void UpdateTemperature()
+    {
+        float hottestDay = HOTTEST_DAY * YEAR_LENGTH;
+        float coldestDay = COLDEST_DAY * YEAR_LENGTH;
+        float progress = Mathf.Repeat(day - hottestDay, YEAR_LENGTH) / YEAR_LENGTH;
+        float easedProgress;
+        float startTemperature;
+        float endTemperature;
+
+        if (progress < 0.5f)
+        {
+            easedProgress = EvaluateSigmoid(progress * 2.0f);
+            startTemperature = HOTTEST_MULTI;
+            endTemperature = COLDEST_MULTI;
+        }
+        else
+        {
+            easedProgress = EvaluateSigmoid((progress - 0.5f) * 2.0f);
+            startTemperature = COLDEST_MULTI;
+            endTemperature = HOTTEST_MULTI;
+        }
+
+        float temperature = Mathf.Lerp(startTemperature, endTemperature, easedProgress);
+        bool isSeasonalExtreme = day == Mathf.RoundToInt(hottestDay) || day == Mathf.RoundToInt(coldestDay);
+        if (!isSeasonalExtreme)
+        {
+            float variation = (HOTTEST_MULTI - COLDEST_MULTI) * WEATHER_VARIATION;
+            temperature += UnityEngine.Random.Range(-variation, variation);
+        }
+
+        Temperature_mutlti = Mathf.Clamp(temperature, COLDEST_MULTI, HOTTEST_MULTI);
+    }
+
+    private static float EvaluateSigmoid(float progress)
+    {
+        float lowerBound = 1.0f / (1.0f + Mathf.Exp(SIGMOID_STEEPNESS * 0.5f));
+        float upperBound = 1.0f / (1.0f + Mathf.Exp(-SIGMOID_STEEPNESS * 0.5f));
+        float value = 1.0f / (1.0f + Mathf.Exp(-SIGMOID_STEEPNESS * (progress - 0.5f)));
+        return (value - lowerBound) / (upperBound - lowerBound);
     }
 }

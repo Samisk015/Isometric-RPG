@@ -1,12 +1,17 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using MoonSharp.Interpreter;
+using UnityEngine;
 
 public sealed class LuaBehaviourRegistry
 {
+    public static LuaBehaviourRegistry Instance { get; } = new();
+
     private readonly Dictionary<string, LuaBehaviourModule> mobBehaviours = new();
     private readonly Dictionary<string, LuaBehaviourModule> blockBehaviours = new();
 
-    public LuaBehaviourRegistry()
+    private LuaBehaviourRegistry()
     {
         RegisterApiTypes();
     }
@@ -37,6 +42,18 @@ public sealed class LuaBehaviourRegistry
         blockBehaviours[id] = LoadModule(id, source);
     }
 
+    public void LoadFromDirectory(string modPath, string modNamespace)
+    {
+        LoadDirectory(
+            Path.Combine(modPath, "Lua", "MobBehaviours"),
+            modNamespace,
+            RegisterMobBehaviour);
+        LoadDirectory(
+            Path.Combine(modPath, "Lua", "BlockBehaviours"),
+            modNamespace,
+            RegisterBlockBehaviour);
+    }
+
     public bool TryGetMobBehaviour(string id, out LuaBehaviourModule behaviour)
     {
         return mobBehaviours.TryGetValue(id, out behaviour);
@@ -45,6 +62,31 @@ public sealed class LuaBehaviourRegistry
     public bool TryGetBlockBehaviour(string id, out LuaBehaviourModule behaviour)
     {
         return blockBehaviours.TryGetValue(id, out behaviour);
+    }
+
+    private static void LoadDirectory(
+        string directory,
+        string modNamespace,
+        Action<string, string> register)
+    {
+        if (!Directory.Exists(directory))
+        {
+            return;
+        }
+
+        foreach (string path in Directory.GetFiles(directory, "*.lua", SearchOption.AllDirectories))
+        {
+            string id = $"{modNamespace}:{Path.GetFileNameWithoutExtension(path)}";
+            try
+            {
+                register(id, File.ReadAllText(path));
+                Debug.Log($"Loaded Lua behaviour: {id}");
+            }
+            catch (Exception exception)
+            {
+                Debug.LogError($"Lua behaviour '{id}' could not load: {exception.Message}");
+            }
+        }
     }
 
     private static LuaBehaviourModule LoadModule(string id, string source)

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // Tags describe the rule; this engine-owned service applies it on a capped budget.
@@ -40,10 +42,24 @@ public sealed class BlockRandomTickSystem : MonoBehaviour
         }
         else if (block.definition.HasTag("#plants") && World.Instance.IsAir(position + Vector3Int.forward))
         {
-            EntityState newState = new EntityState();
+            EntityState state = World.Instance.GetOrCreate(position);
+            double growth = state.GetNumber("growth_stage", 0);
 
-            // newState.SetNumber("growth_stage", )
-            // BlockStateStore.SetOrCreate(position, )
+            if (growth + 1 == 1)
+            {
+                string txtId = $"{block.definition.FullId}_growth_1";
+                ChunkRenderer.Instance.RenderBlock(position, block, txtId);
+            } else if (growth + 1 == 2)
+            {
+                string txtId = $"{block.definition.FullId}_growth_2";
+                ChunkRenderer.Instance.RenderBlock(position, block, txtId);
+            } else if (growth + 1 == 3)
+            {
+                string txtId = $"{block.definition.FullId}_grown";
+                ChunkRenderer.Instance.RenderBlock(position, block, txtId);
+            }
+
+            state.SetNumber("growth_stage", growth + 1);
         }
 
         foreach (string behaviourId in block.definition.behaviours)

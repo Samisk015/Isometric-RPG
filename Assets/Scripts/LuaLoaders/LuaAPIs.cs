@@ -269,6 +269,20 @@ public sealed class LuaWorldApi
         return world != null && world.SetBlock(position.ToUnityPosition(), blockId);
     }
 
+    public void update_block_texture(LuaGridPosition position, string textureId)
+    {
+        // to add later: check if its a registered texture and check if it is that block's texture
+
+        if (!(world.TryGetBlock(position.ToUnityPosition()))) return;
+
+        Block block = world.GetBlock(position.ToUnityPosition());
+
+        if (block != null)
+        {
+            ChunkRenderer.Instance.RenderBlock(position.ToUnityPosition(), block, textureId);
+        }
+    }
+
     public void message(LuaPlayerApi player, string text)
     {
         Debug.Log($"[Lua] {text}");

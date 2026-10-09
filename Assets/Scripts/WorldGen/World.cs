@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum Season
@@ -36,6 +37,30 @@ public class World : MonoBehaviour
     private const float WEATHER_VARIATION = 0.04f;
 
     private float Temperature_mutlti = 1.0f;
+
+    private readonly BlockStateStore states = new();
+
+    public EntityState GetOrCreate(Vector3Int position)
+    {
+        return states.GetOrCreate(position);
+    }
+
+    public void SetOrCreate(Vector3Int position, EntityState state)
+    {
+        states.SetOrCreate(position, state);
+    }
+
+    public void RemoveState(Vector3Int position)
+    {
+        states.Remove(position);
+    }
+    
+    private Season currentSeason = Season.Spring;
+
+    public Season GetSeason()
+    {
+        return currentSeason;
+    }
 
     public float GetTempMutli()
     {
@@ -123,8 +148,29 @@ public class World : MonoBehaviour
         int localZ = worldPosition.z;
         if (localX < 0 || localX >= Chunk.CHUNK_SIZE || localY < 0 || localY >= Chunk.CHUNK_SIZE || localZ < 0 || localZ >= Chunk.CHUNK_HEIGHT) return false;
 
-        chunk.blocks[localX, localY, localZ] = new Block(definition);
-        ChunkRenderer.Instance?.RenderBlock(worldPosition, definition);
+        Block block = new Block(definition);
+        chunk.blocks[localX, localY, localZ] = block;
+        ChunkRenderer.Instance?.RenderBlock(worldPosition, block);
+        return true;
+    }
+
+    public bool SetOrSwapBlock(Vector3Int worldPosition, string blockId)
+    {
+        if (!BlockRegistry.TryGet(blockId, out BlockDefinition definition)) return false;
+        
+        Vector2Int chunkCoord = new Vector2Int(
+            Mathf.FloorToInt((float)worldPosition.x / Chunk.CHUNK_SIZE),
+            Mathf.FloorToInt((float)worldPosition.y / Chunk.CHUNK_SIZE));
+        if (!ChunkManager.Instance.loadedChunks.TryGetValue(chunkCoord, out Chunk chunk)) return false;
+
+        int localX = worldPosition.x - chunkCoord.x * Chunk.CHUNK_SIZE;
+        int localY = worldPosition.y - chunkCoord.y * Chunk.CHUNK_SIZE;
+        int localZ = worldPosition.z;
+        if (localX < 0 || localX >= Chunk.CHUNK_SIZE || localY < 0 || localY >= Chunk.CHUNK_SIZE || localZ < 0 || localZ >= Chunk.CHUNK_HEIGHT) return false;
+
+        Block block = new Block(definition);
+        chunk.blocks[localX, localY, localZ] = block;
+        ChunkRenderer.Instance?.RenderBlock(worldPosition, block);
         return true;
     }
 
@@ -171,6 +217,15 @@ public class World : MonoBehaviour
         float easedProgress;
         float startTemperature;
         float endTemperature;
+
+        if (progress < 0.25f)
+            currentSeason = Season.Spring;
+        else if (progress < 0.5f)
+            currentSeason = Season.Summer;
+        else if (progress < 0.75f)
+            currentSeason = Season.Autumn;
+        else
+            currentSeason = Season.Winter;
 
         if (progress < 0.5f)
         {

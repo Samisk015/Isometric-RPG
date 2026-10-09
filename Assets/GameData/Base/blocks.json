@@ -4,33 +4,118 @@
       "id": "grass",
       "isWalkable": true,
       "supportsRotation": false,
+      "pathfindCost" : 1,
+      "behaviour" : "base:grass",
       "Tags" : [
-        "base:grows_flowers"
+        "#grass"
+      ],
+      "blockBreaking" : "dig",
+      "defaultTexture" : "base:grass",
+      "stateTextures" : [
+        {
+          "name" : "pathState",
+          "value" : 0,
+          "path" : "base:grass"
+        },
+        {
+          "name" : "pathState",
+          "value" : 1,
+          "path" : "base:grass_path_1/3"
+        },
+        {
+          "name" : "pathState",
+          "value" : 2,
+          "path" : "base:grass_path_2/3"
+        },
+        {
+          "name" : "pathState",
+          "value" : 3,
+          "path" : "base:grass_path"
+        }
       ]
     },
     {
       "id": "stone",
       "isWalkable": true,
-      "supportsRotation": false
+      "supportsRotation": false,
+      "pathfindCost" : 1,
+      "behaviour" : "base:stone",
+      "Tags" : [
+        "#stone"
+      ],
+      "drops" : [
+        {
+          "id" : "base:stone_chip",
+          "min" : 2,
+          "max" : 4,
+          "chance" : 1
+        }
+      ],
+      "blockBreaking" : "mine",
+      "textures" : [
+        "base:stone", "base:stone_cracked_1/3", "base:stone_cracked_2/3", "base:stone_cracked"
+      ]
     },
     {
       "id": "dirt",
       "isWalkable": true,
       "supportsRotation": false,
+      "behaviour" : "base:dirt",
       "Tags" : [
         "#dirt",
         "base:grows_grass"
+      ],
+      "stateTextures" : [
+        {
+          "name" : "wet",
+          "value" : false,
+          "path" : "base:sand"
+        },
+        {
+          "name" : "wet",
+          "value" : true,
+          "path" : "base:wet_sand"
+        }
       ]
     },
     {
       "id": "sand",
       "isWalkable": true,
-      "supportsRotation": false
+      "supportsRotation": false,
+      "behaviour" : "base:sand",
+      "Tags" : [
+        "#sand", "gravity"
+      ],
+      "blockBreaking" : "dig",
+      "defaultTexture" : "base:sand"
     },
     {
       "id": "air",
       "isWalkable": false,
       "supportsRotation": false
+    },
+    {
+      "id": "campfire",
+      "isWalkable": true,
+      "supportsRotation": false,
+      "pathfindCost" : 1,
+      "behaviour" : "base:campfire",
+      "Tags" : [
+
+      ],
+      "defaultTexture" : "base:campfire",
+      "stateTextures" : [
+        {
+          "name" : "lit",
+          "value" : true,
+          "path" : "base:campfire_lit"
+        },
+        {
+          "name" : "lit",
+          "value" : false,
+          "path" : "base:campfire_ext"
+        }
+      ]
     }
   ]
 }

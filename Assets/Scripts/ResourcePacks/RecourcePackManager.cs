@@ -75,6 +75,7 @@ public class RecourcePackManager : MonoBehaviour
 
     public void LoadRecourcePack(string packPath)
     {
+        // register tiles with namespace:localId rather than localId itself
         ReadResourcePackMetadata(packPath);
         string texturesPath = Path.Combine(packPath, "Textures");
         foreach (string dir in Directory.GetDirectories(texturesPath))

@@ -8,7 +8,7 @@ public sealed class BlockRandomTickSystem : MonoBehaviour
     private float credit;
     private long gameTick;
     private readonly System.Random random = new();
-    private readonly BlockStateStore states = new();
+    
 
     private void Update()
     {
@@ -53,7 +53,7 @@ public sealed class BlockRandomTickSystem : MonoBehaviour
             LuaBlockContext context = new LuaBlockContext(
                 new LuaGridPosition(position),
                 new LuaBlockApi(block),
-                new LuaBlockStateApi(states.GetOrCreate(position)),
+                new LuaBlockStateApi(World.Instance.GetOrCreate(position)),
                 null,
                 new LuaTimeApi(gameTick),
                 new LuaRandomApi(position.GetHashCode() ^ gameTick.GetHashCode()),

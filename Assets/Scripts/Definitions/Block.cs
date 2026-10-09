@@ -4,10 +4,17 @@ using UnityEngine.Tilemaps;
 [System.Serializable]
 public class Block
 {
+
+    public Vector3Int position;
     public Direction direction;
 
     [System.NonSerialized]
     public BlockDefinition definition;
+
+    public Vector3Int GetPosition()
+    {
+        return position;
+    }
 
     public Block(BlockDefinition definition, Direction direction = Direction.Up)
     {

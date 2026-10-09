@@ -37,7 +37,7 @@ public class ChunkRenderer : MonoBehaviour
 
                     if (block.definition != airDef)
                     {
-                        tilemaps[z].SetTile(Vector3Int.FloorToInt(new Vector3(worldX, worldY, 0)), TileRegistry.Get(block.definition.LocalId));
+                        tilemaps[z].SetTile(Vector3Int.FloorToInt(new Vector3(worldX, worldY, 0)), TileRegistry.Get(block.definition.FullId));
                     }
                 }
             }
@@ -63,15 +63,28 @@ public class ChunkRenderer : MonoBehaviour
                     }
                 }
             }
-        }Vector2Int chunkCoord = chunk.coordinate;
+        } Vector2Int chunkCoord = chunk.coordinate;
 
     }
 
-    public void RenderBlock(Vector3Int worldPosition, BlockDefinition definition)
+    public void RenderBlock(Vector3Int worldPosition, Block block, string textureId)
     {
+        BlockDefinition definition = block.definition;
+
+        // to add: check if its a texture inside the definition's textures array
+
         if (worldPosition.z < 0 || worldPosition.z >= tilemaps.Length) return;
         Vector3Int tilePosition = new Vector3Int(worldPosition.x, worldPosition.y, 0);
         tilemaps[worldPosition.z].SetTile(tilePosition,
-            definition.FullId == "base:air" ? null : TileRegistry.Get(definition.LocalId));
+            definition.FullId == "base:air" ? null : TileRegistry.Get(textureId));
     }
+
+    public void RenderBlock(Vector3Int worldPosition, Block block)
+    {
+        BlockDefinition definition = block.definition;
+        if (worldPosition.z < 0 || worldPosition.z >= tilemaps.Length) return;
+        Vector3Int tilePosition = new Vector3Int(worldPosition.x, worldPosition.y, 0);
+        tilemaps[worldPosition.z].SetTile(tilePosition,
+            definition.FullId == "base:air" ? null : TileRegistry.Get(definition.FullId));
+    } 
 }

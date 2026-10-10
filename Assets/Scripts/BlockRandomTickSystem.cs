@@ -62,10 +62,12 @@ public sealed class BlockRandomTickSystem : MonoBehaviour
             state.SetNumber("growth_stage", growth + 1);
         }
 
-        foreach (string behaviourId in block.definition.behaviours)
-        {
-            if (!LuaBehaviourRegistry.Instance.TryGetBlockBehaviour(behaviourId, out LuaBehaviourModule behaviour)) continue;
 
+        if (!string.IsNullOrEmpty(block.definition.behaviour) &&
+        LuaBehaviourRegistry.Instance.TryGetBlockBehaviour(
+            block.definition.behaviour,
+            out LuaBehaviourModule behaviour))
+        {
             LuaBlockContext context = new LuaBlockContext(
                 new LuaGridPosition(position),
                 new LuaBlockApi(block),
@@ -74,7 +76,9 @@ public sealed class BlockRandomTickSystem : MonoBehaviour
                 new LuaTimeApi(gameTick),
                 new LuaRandomApi(position.GetHashCode() ^ gameTick.GetHashCode()),
                 new LuaWorldApi(World.Instance));
+
             behaviour.Call("on_random_tick", context);
         }
+        
     }
 }

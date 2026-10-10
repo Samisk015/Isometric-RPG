@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -71,7 +73,10 @@ public class ChunkRenderer : MonoBehaviour
     {
         BlockDefinition definition = block.definition;
 
-        // to add: check if its a texture inside the definition's textures array
+        if (!definition.textures.Contains<string>(textureId))
+        {
+            Debug.LogWarning("Incorrect texture Id passed into block render method");
+        }
 
         if (worldPosition.z < 0 || worldPosition.z >= tilemaps.Length) return;
         Vector3Int tilePosition = new Vector3Int(worldPosition.x, worldPosition.y, 0);

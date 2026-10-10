@@ -44,6 +44,8 @@ public static class ModLoader
 
         LuaBehaviourRegistry.Instance.LoadFromDirectory(modFolder, metadata.@namespace);
 
+        
+
         if (File.Exists(blocksPath))
         {
             BlockDefinitionFile blockFile = JsonUtility.FromJson<BlockDefinitionFile>(File.ReadAllText(blocksPath));

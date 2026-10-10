@@ -1,0 +1,11 @@
+{
+    "animations" : [
+        {
+            "id" : "zombie_idle",
+            "loop" : true,
+            "frames" : [
+                
+            ]
+        }
+    ]
+}

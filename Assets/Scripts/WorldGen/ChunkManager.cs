@@ -19,6 +19,16 @@ public class ChunkManager : MonoBehaviour
         }
     }
 
+    public int GetTemperature(Vector2Int coordinate)
+    {
+        return loadedChunks[coordinate].GetTemp();
+    }
+
+    public void SetTemperature(Vector2Int coordinate, int newTemp)
+    {
+        loadedChunks[coordinate].SetTemp(newTemp);
+    }
+
     public void Test()
     {
         for (int x = -ChunkRenderer.Instance.RenderDistance; x <= ChunkRenderer.Instance.RenderDistance; x++)

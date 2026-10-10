@@ -1,3 +1,4 @@
+using MoonSharp.VsCodeDebugger.SDK;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -27,6 +28,15 @@ public class Block
 }
 
 [System.Serializable]
+public class ItemDrop
+{
+    public string id;
+    public int min;
+    public int max;
+    public float chance;
+}
+
+[System.Serializable]
 public class ModMetadata
 {
     public string modName;
@@ -34,6 +44,17 @@ public class ModMetadata
     public string gameVersion;
     public string version;
     public string author;
+}
+
+[System.Serializable]
+public class CustomValue
+{
+    public string id;
+    public string type;
+    
+    public string stringValue;
+    public bool boolValue;
+    public double numberValue;
 }
 
 [System.Serializable]
@@ -47,12 +68,14 @@ public class BlockDefinitionData
 {
     public string id;
     public bool isWalkable;
+    public short pathfindCost;
     public bool supportsRotation;
-    // Keep both forms while the content format is being standardized.
     public string behaviour;
-    public string[] behaviours;
     public string[] Tags;
-    public string[] tags;
+    public ItemDrop[] drops;
+    public CustomValue[] customValues;
+    public string blockBreaking;
+    public string[] textures;
 }
 
 public class BlockDefinition
@@ -64,28 +87,38 @@ public class BlockDefinition
 
     public bool IsWalkable { get; }
     public bool SupportsRotation { get; }
-
     public short pathfindCost { get; }
-    public string[] behaviours { get; }
-
+    public string behaviour { get; }
     public string[] tags { get; }
+    public ItemDrop[] drops { get; }
+    public CustomValue[] customValues { get; }
+    public string blockBreaking { get; }
+    public string[] textures { get; }
 
     public BlockDefinition(
         string blockNamespace,
         string localId,
         bool isWalkable,
         bool supportsRotation,
-        string[] blockBehaviours,
+        string blockBehaviour,
         string[] blockTags,
-        short blockPathfindCost)
+        short blockPathfindCost,
+        ItemDrop[] blockItemDrops,
+        CustomValue[] blockCustomValues,
+        string blockBreakingType,
+        string[] blockTextures)
     {
         Namespace = blockNamespace;
         LocalId = localId;
         IsWalkable = isWalkable;
         SupportsRotation = supportsRotation;
         pathfindCost = blockPathfindCost;
-        behaviours = blockBehaviours ?? System.Array.Empty<string>();
+        behaviour = blockBehaviour;
         tags = blockTags ?? System.Array.Empty<string>();
+        drops = blockItemDrops ?? System.Array.Empty<ItemDrop>();
+        customValues = blockCustomValues ?? System.Array.Empty<CustomValue>();
+        blockBreaking = blockBreakingType;
+        textures = blockTextures ?? System.Array.Empty<string>();
         FullId = $"{Namespace}:{LocalId}";
     }
 

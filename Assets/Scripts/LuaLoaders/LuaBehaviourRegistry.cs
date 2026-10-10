@@ -28,6 +28,7 @@ public sealed class LuaBehaviourRegistry
         UserData.RegisterType<LuaTimeApi>();
         UserData.RegisterType<LuaRandomApi>();
         UserData.RegisterType<LuaGridPosition>();
+        UserData.RegisterType<LuaGridPosition2D>();
         UserData.RegisterType<LuaBlockApi>();
         UserData.RegisterType<LuaBlockStateApi>();
     }

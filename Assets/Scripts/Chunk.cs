@@ -6,6 +6,18 @@ public class Chunk
     public const int CHUNK_SIZE = 8;
     public const int CHUNK_HEIGHT = 25;
 
+    private int temperature = 30;
+
+    public int GetTemp()
+    {
+        return temperature;
+    }
+
+    public void SetTemp(int newTemp)
+    {
+        temperature = newTemp;
+    }
+
     public Vector2Int coordinate;
     
     [System.NonSerialized]

@@ -55,9 +55,9 @@ public class World : MonoBehaviour
         states.Remove(position);
     }
     
-    private Season currentSeason = Season.Spring;
+    private string currentSeason = "Spring";
 
-    public Season GetSeason()
+    public string GetSeason()
     {
         return currentSeason;
     }
@@ -97,6 +97,8 @@ public class World : MonoBehaviour
     public int day = 1;
 
     public int daytime = 0;
+
+    public bool IsDaytime => daytime < DAY_LENGTH - NIGHT_LENGTH;
 
     public bool TryGetBlock(Vector3Int worldPosition)
     {
@@ -219,13 +221,13 @@ public class World : MonoBehaviour
         float endTemperature;
 
         if (progress < 0.25f)
-            currentSeason = Season.Spring;
+            currentSeason = "Spring";
         else if (progress < 0.5f)
-            currentSeason = Season.Summer;
+            currentSeason = "Summer";
         else if (progress < 0.75f)
-            currentSeason = Season.Autumn;
+            currentSeason = "Autumn";
         else
-            currentSeason = Season.Winter;
+            currentSeason = "Winter";
 
         if (progress < 0.5f)
         {

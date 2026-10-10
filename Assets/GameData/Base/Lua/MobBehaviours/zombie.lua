@@ -23,33 +23,9 @@ Zombie.Boots = nil
 
 function Zombie.OnSpawn() end
 
-function Zombie:SunBurn()
-	if self.Health ~= nil then
-		self:Damage()
-		if self.State ~= "OnFire" then
-			print("On fire")
-			self.State = "OnFire"
-		end
-	end
-end
-
--- ridiculius
-
-function Zombie:Damage(amount)
-	self.Health = self.Health - amount
-end
-
 function Zombie:UpdateState(stateName, value)
 	if self.state[stateName] ~= nil then
 		self.state[stateName] = value
-	end
-end
-
-function Zombie:OnTick()
-	if game.TimeOfDay == "day" then
-		self:SunBurn()
-	elseif self.State == "OnFire" then
-		self.State = "Extinguished"
 	end
 end
 

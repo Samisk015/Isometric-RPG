@@ -69,6 +69,11 @@ public class MobDefinition
         AIType = mobAIType;
         BehaviourId = behaviourId;
     }
+
+    public bool HasTag(string tagId)
+    {
+        return System.Array.Exists(Tags, tag => tag == tagId);
+    }
 }
 
 [System.Serializable]

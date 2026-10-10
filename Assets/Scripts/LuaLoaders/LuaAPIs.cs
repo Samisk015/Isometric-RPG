@@ -32,6 +32,34 @@ public sealed class LuaGridPosition
 }
 
 [MoonSharpUserData]
+public sealed class LuaGridPosition2D
+{
+    public int x { get; }
+    public int y { get; }
+
+    public LuaGridPosition2D(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+
+    public LuaGridPosition2D(Vector2Int position)
+        : this(position.x, position.y)
+    {
+    }
+
+    public LuaGridPosition2D offset(int offsetX, int offsetY)
+    {
+        return new LuaGridPosition2D(x + offsetX, y + offsetY);
+    }
+
+    public Vector2Int ToUnityPosition()
+    {
+        return new Vector2Int(x, y);
+    }
+}
+
+[MoonSharpUserData]
 public sealed class LuaEntityApi
 {
     private readonly MobController mob;
@@ -252,6 +280,11 @@ public sealed class LuaWorldApi
     public float get_temp_mutli()
     {
         return world.GetTempMutli();
+    }
+
+    public string get_season()
+    {
+        return world.GetSeason();
     }
 
     public bool is_air(LuaGridPosition position)

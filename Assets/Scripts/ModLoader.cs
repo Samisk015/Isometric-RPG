@@ -49,9 +49,10 @@ public static class ModLoader
             BlockDefinitionFile blockFile = JsonUtility.FromJson<BlockDefinitionFile>(File.ReadAllText(blocksPath));
             foreach (BlockDefinitionData data in blockFile.blocks)
             {
-                string[] behaviours = data.behaviours ?? (string.IsNullOrEmpty(data.behaviour) ? System.Array.Empty<string>() : new[] { data.behaviour });
-                string[] tags = data.tags ?? data.Tags ?? System.Array.Empty<string>();
-                BlockRegistry.Register(new BlockDefinition(metadata.@namespace, data.id, data.isWalkable, data.supportsRotation, behaviours, tags));
+                string[] tags = data.Tags ?? System.Array.Empty<string>();
+                CustomValue[] customValues = data.customValues ?? System.Array.Empty<CustomValue>();
+                ItemDrop[] drops = data.drops ?? System.Array.Empty<ItemDrop>();
+                BlockRegistry.Register(new BlockDefinition(metadata.@namespace, data.id, data.isWalkable, data.supportsRotation, data.behaviour, tags, data.pathfindCost, drops, customValues, data.blockBreaking, data.textures));
             }
         }
 

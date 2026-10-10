@@ -19,6 +19,16 @@ public sealed class MobController : MonoBehaviour
         Navigation.MoveRequested += SetGridPosition;
     }
 
+    private void OnEnable()
+    {
+        MobRandomTickSystem.Register(this);
+    }
+
+    private void OnDisable()
+    {
+        MobRandomTickSystem.Unregister(this);
+    }
+
     public void Initialize(MobDefinition definition, string persistentId, Vector3Int position)
     {
         Definition = definition ?? throw new ArgumentNullException(nameof(definition));

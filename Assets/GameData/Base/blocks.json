@@ -51,6 +51,14 @@
           "chance" : 1
         }
       ],
+      "customValues" : [
+        {
+          "id" : "spread_spores",
+          "type" : "bool",
+          "boolValue" : true
+        }
+      ],
+
       "blockBreaking" : "mine",
       "textures" : [
         "base:stone", "base:stone_cracked_1/3", "base:stone_cracked_2/3", "base:stone_cracked"

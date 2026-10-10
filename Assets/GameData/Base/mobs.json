@@ -5,7 +5,7 @@
             "behaviour" : "base:zombie",
             "maxHealth" : 100,
             "Tags" : [
-                "burned_by_sun", "#monsters"
+                "#burns_in_sun", "#monsters"
             ],
             "drops" : [
                 {

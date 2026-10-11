@@ -44,7 +44,7 @@ public static class ModLoader
 
         LuaBehaviourRegistry.Instance.LoadFromDirectory(modFolder, metadata.@namespace);
 
-        
+        AnimationsLoader.LoadAnimations(modFolder, metadata.@namespace);
 
         if (File.Exists(blocksPath))
         {
@@ -75,6 +75,7 @@ public static class ModLoader
                 string localId = data.id.Contains(":") ? data.id.Substring(data.id.IndexOf(':') + 1) : data.id;
                 string fullId = data.id.Contains(":") ? data.id : $"{metadata.@namespace}:{data.id}";
                 MobRegistry.Register(new MobDefinition(metadata.@namespace, localId, fullId, data.maxHealth, data.tags ?? data.Tags, data.aiType, data.behaviour));
+                AnimationsLoader.RegisterAnimations(fullId, data.animations, mobsPath);
             }
         }
     }

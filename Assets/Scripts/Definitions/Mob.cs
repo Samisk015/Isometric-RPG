@@ -85,6 +85,7 @@ public class MobDefinitionData
     public string[] Tags;
     public string[] tags;
     public string aiType;
+    public AnimDefinitionData[] animations;
 }
 
 [System.Serializable]

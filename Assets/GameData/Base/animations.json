@@ -1,10 +1,22 @@
 {
     "animations" : [
         {
-            "id" : "zombie_idle",
-            "loop" : true,
-            "frames" : [
-                
+            "groupId" : "base:zombie",
+            "animations" : [
+                {
+                    "id" : "zombie_idle",
+                    "loop" : true,
+                    "frames" : [
+                        {
+                            "id" : "zombie_idle_1",
+                            "ticks" : 20
+                        },
+                        {
+                            "id" : "zombie_idle_2",
+                            "ticks" : 15
+                        }
+                    ]
+                }
             ]
         }
     ]

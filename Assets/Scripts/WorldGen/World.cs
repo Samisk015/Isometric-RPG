@@ -62,7 +62,7 @@ public class World : MonoBehaviour
         return currentSeason;
     }
 
-    public float GetTempMutli()
+    public float GetTempMultiplier()
     {
         return Temperature_mutlti;
     }

@@ -25,6 +25,7 @@ public sealed class LuaGridPosition
         return new LuaGridPosition(x + offsetX, y + offsetY, z + offsetZ);
     }
 
+    [MoonSharpHidden]
     public Vector3Int ToUnityPosition()
     {
         return new Vector3Int(x, y, z);
@@ -53,6 +54,7 @@ public sealed class LuaGridPosition2D
         return new LuaGridPosition2D(x + offsetX, y + offsetY);
     }
 
+    [MoonSharpHidden]
     public Vector2Int ToUnityPosition()
     {
         return new Vector2Int(x, y);
@@ -141,22 +143,17 @@ public sealed class LuaEntityStateApi
         return state.GetString(key, defaultValue);
     }
 
-    public void set_position(LuaGridPosition value)
+    public void set_position(string key, LuaGridPosition value)
     {
-        state.SetPosition(value.ToUnityPosition());
+        state.SetPosition(key, value.ToUnityPosition());
     }
 
-    // public LuaGridPosition get_position(string key, LuaGridPosition defaultValue = null)
-    // {
-    //     return new LuaGridPosition(
-    //         state.GetPosition(
-    //             key,
-    //             defaultValue?.ToUnityPosition() ?? default));
-    // }
-
-    public LuaGridPosition get_position()
+    public LuaGridPosition get_position(string key, LuaGridPosition defaultValue = null)
     {
-        return new LuaGridPosition(state.GetPosition());
+        Vector3Int fallback = defaultValue != null
+            ? defaultValue.ToUnityPosition()
+            : default;
+        return new LuaGridPosition(state.GetPosition(key, fallback));
     }
 }
 
@@ -277,9 +274,9 @@ public sealed class LuaWorldApi
         this.world = world;
     }
 
-    public float get_temp_mutli()
+    public float get_temp_multiplier()
     {
-        return world.GetTempMutli();
+        return world.GetTempMultiplier();
     }
 
     public string get_season()

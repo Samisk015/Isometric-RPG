@@ -4,7 +4,7 @@
             "id" : "base:zombie",
             "behaviour" : "base:zombie",
             "maxHealth" : 20,
-            "Tags" : [
+            "tags" : [
                 "#burns_in_sun", "#monsters"
             ],
             "drops" : [
@@ -15,31 +15,13 @@
                     "chance" : 1
                 }
             ],
-            "aggresionType" : "hostile",
+            "aggressionType" : "hostile",
             "knockbackResistance" : 0.1,
             "customValues" : [
 
             ],
             "animations" : [
-                {
-                    "id" : "zombie_walk",
-                    "frames" : [
-                        {
-                            "path" : "base:zombie_idle_1",
-                            "ticks" : 10
-                        },
-                        {
-                            "path" : "base:zombie_idle_2",
-                            "ticks" : 15
-                        },
-                        {
-                            "path" : "base:zombie_idle_3",
-                            "ticks" : 10
-                        }
-                    ],
-                    "loop" : true
-                }
-                
+                "zombie_idle"
             ]
         }
     ]

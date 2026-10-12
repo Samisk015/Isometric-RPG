@@ -9,9 +9,19 @@ public sealed class LuaMobBehaviourHost : MonoBehaviour
         MobController mobController,
         LuaBehaviourModule luaBehaviour)
     {
-        mob = mobController;
-        behaviour = luaBehaviour;
-        MobDecisionScheduler.Instance?.Register(this);
+        mob = mobController ?? throw new System.ArgumentNullException(nameof(mobController));
+        behaviour = luaBehaviour ?? throw new System.ArgumentNullException(nameof(luaBehaviour));
+        RegisterIfReady();
+    }
+
+    private void OnEnable()
+    {
+        RegisterIfReady();
+    }
+
+    private void OnDisable()
+    {
+        MobDecisionScheduler.Instance?.Unregister(this);
     }
 
     private void OnDestroy()
@@ -26,7 +36,10 @@ public sealed class LuaMobBehaviourHost : MonoBehaviour
 
     public void OnDecisionTick(long gameTick)
     {
-        behaviour?.Call("on_tick", CreateContext(null, gameTick));
+        if (mob != null && mob.LivingEntity.IsAlive)
+        {
+            behaviour?.Call("on_tick", CreateContext(null, gameTick));
+        }
     }
 
     public void OnInteract(Player player)
@@ -51,5 +64,13 @@ public sealed class LuaMobBehaviourHost : MonoBehaviour
                     mob.PersistentId,
                     gameTick)),
             new LuaWorldApi(World.Instance));
+    }
+
+    private void RegisterIfReady()
+    {
+        if (isActiveAndEnabled && mob != null && behaviour != null)
+        {
+            MobDecisionScheduler.Instance?.Register(this);
+        }
     }
 }

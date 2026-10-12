@@ -36,7 +36,7 @@ public sealed class MobController : MonoBehaviour
     {
         Definition = definition ?? throw new ArgumentNullException(nameof(definition));
         PersistentId = string.IsNullOrWhiteSpace(persistentId) ? Guid.NewGuid().ToString("N") : persistentId;
-        LivingEntity.ConfigureMaxHealth(definition.maxHealth);
+        LivingEntity.ConfigureMaxHealth(definition.MaxHealth);
         SetGridPosition(position);
         PlayDefaultAnimation();
     }
@@ -85,6 +85,14 @@ public sealed class MobController : MonoBehaviour
 
     private void PlayDefaultAnimation()
     {
+        foreach (string animationId in Definition.Animations)
+        {
+            if (PlayAnimation(animationId))
+            {
+                return;
+            }
+        }
+
         if (AnimationRegistry.TryGetGroup(Definition.FullId, out AnimationGroup group)
             && group.FirstAnimation != null)
         {

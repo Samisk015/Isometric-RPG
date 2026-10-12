@@ -1,95 +1,71 @@
-using System.Collections.Generic;
-using MoonSharp.Interpreter.CoreLib;
-using UnityEngine;
-
-public class Mob
-{
-    public int health;
-    public string displayName;
-
-    public CustomMobState state;
-
-    public bool AI;
-
-    public Mob(MobDefinition mobDefinition) : this(mobDefinition, mobDefinition.maxHealth)
-    {
-        
-    }
-
-    public Mob(MobDefinition mobDefinition, int maxHeatlh)
-    {
-        
-    }
-}
-
-public struct MobItemDrop
-{
-    public string id;
-}
-
-public class CustomMobState
-{
-    private readonly Dictionary<string, object> values = new();
-
-    public void Set<T>(string key, T value)
-    {
-        values[key] = value;
-    }
-
-    public T Get<T>(string key, T defaultValue = default)
-    {
-        return values.TryGetValue(key, out object value)
-            ? (T)value
-            : defaultValue;
-    }
-}
+using System;
 
 [System.Serializable]
-public class MobDefinition
+public sealed class MobDefinition
 {
-    public string Namespace;
-    public string LocalId;
+    public string Namespace { get; }
+    public string LocalId { get; }
+    public string FullId { get; }
+    public int MaxHealth { get; }
+    public string[] Tags { get; }
+    public string AggressionType { get; }
+    public float KnockbackResistance { get; }
+    public string BehaviourId { get; }
+    public ItemDrop[] Drops { get; }
+    public CustomValue[] CustomValues { get; }
+    public string[] Animations { get; }
 
-    public string FullId;
-
-    public int maxHealth;    
-
-    public string[] Tags;
-
-    public string AIType;
-    public string BehaviourId;
-
-    public MobDefinition(string mobNamespace, string mobLocalId, string mobFullId, int mobMaxHealth, string[] mobTags, string mobAIType, string behaviourId)
+    public MobDefinition(
+        string mobNamespace,
+        string mobLocalId,
+        string mobFullId,
+        int mobMaxHealth,
+        string[] mobTags,
+        string aggressionType,
+        float knockbackResistance,
+        string behaviourId,
+        ItemDrop[] drops,
+        CustomValue[] customValues,
+        string[] animations)
     {
         Namespace = mobNamespace;
         LocalId = mobLocalId;
         FullId = mobFullId;
-        maxHealth = mobMaxHealth;
-        Tags = mobTags ?? System.Array.Empty<string>();
-        AIType = mobAIType;
+        MaxHealth = mobMaxHealth;
+        Tags = mobTags ?? Array.Empty<string>();
+        AggressionType = aggressionType;
+        KnockbackResistance = knockbackResistance;
         BehaviourId = behaviourId;
+        Drops = drops ?? Array.Empty<ItemDrop>();
+        CustomValues = customValues ?? Array.Empty<CustomValue>();
+        Animations = animations ?? Array.Empty<string>();
     }
 
     public bool HasTag(string tagId)
     {
-        return System.Array.Exists(Tags, tag => tag == tagId);
+        return Array.Exists(Tags, tag => tag == tagId);
     }
 }
 
 [System.Serializable]
-public class MobDefinitionData
+public sealed class MobDefinitionData
 {
     public string id;
     public string behaviour;
     public int maxHealth;
-    public string[] Tags;
     public string[] tags;
-    public string aiType;
-    public AnimDefinitionData[] animations;
+    public string aggressionType;
+    public float knockbackResistance;
+    public ItemDrop[] drops;
+    public CustomValue[] customValues;
+    public string[] animations;
+
+    // Retained for existing content packs that used the original casing.
+    public string[] Tags;
 }
 
 [System.Serializable]
-public class MobDefinitionFile
+public sealed class MobDefinitionFile
 {
     public MobDefinitionData[] mobs;
 }

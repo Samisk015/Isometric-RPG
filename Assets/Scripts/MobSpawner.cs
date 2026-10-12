@@ -17,10 +17,19 @@ public sealed class MobSpawner : MonoBehaviour
         LuaMobBehaviourHost luaHost = instance.GetComponent<LuaMobBehaviourHost>() ?? instance.AddComponent<LuaMobBehaviourHost>();
         controller.Initialize(definition, persistentId, position);
 
-        if (!string.IsNullOrWhiteSpace(definition.BehaviourId) && LuaBehaviourRegistry.Instance.TryGetMobBehaviour(definition.BehaviourId, out LuaBehaviourModule behaviour))
+        if (!string.IsNullOrWhiteSpace(definition.BehaviourId))
         {
-            luaHost.Initialize(controller, behaviour);
-            luaHost.OnSpawn();
+            if (LuaBehaviourRegistry.Instance.TryGetMobBehaviour(definition.BehaviourId, out LuaBehaviourModule behaviour))
+            {
+                luaHost.Initialize(controller, behaviour);
+                luaHost.OnSpawn();
+            }
+            else
+            {
+                Debug.LogWarning(
+                    $"Mob '{definition.FullId}' references missing Lua behaviour '{definition.BehaviourId}'.",
+                    instance);
+            }
         }
 
         return instance;
